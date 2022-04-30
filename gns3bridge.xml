@@ -1,0 +1,15 @@
+<network>
+  <name>gns3bridge</name>
+  <forward mode='nat'>
+    <nat>
+      <port start='1024' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='gns3bridge' stp='on' delay='0'/>
+  <domain name='gns3bridge'/>
+  <ip address="10.10.10.9" netmask="255.255.255.252">
+    <dhcp>
+      <range start="10.10.10.10" end="10.10.10.10"/>
+    </dhcp>
+  </ip>
+</network>
