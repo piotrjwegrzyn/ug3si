@@ -25,11 +25,11 @@ gns3tap=gns3tap
 # * gns3mem = RAM size
 # * gns3maxmem = maximum size of RAM+swap (gns3maxmem >= gns3mem)
 # * gns3cores = CPU cores
-gns3mem=8G
-gns3maxmem=16G
+gns3mem=4G
+gns3maxmem=8G
 gns3cores=4
 
-echo "GNS3 server runner"
+echo "GNS3 server runtime"
 
 ps aux | grep "GNS3" | grep -v "grep" > /dev/null
 if [ $? -eq 0 ];
@@ -80,7 +80,7 @@ while :
 do
 	sleep 1
 	echo "."
-	i=$((i--))
+	i=$(($i-1))
 	ping -q -c 1 $gns3ip > /dev/null
 	if [ $? -eq 0 ];
 	then

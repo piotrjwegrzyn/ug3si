@@ -22,7 +22,8 @@ if [ $kvm_support -ne 0 ];
 then
 	echo "KVM supported"
 else
-	echo "KVM not supported, installation will not work correctly"
+	echo "KVM not supported, installation aborted"
+	exit 1
 fi
 
 # check internet connection
@@ -36,11 +37,26 @@ fi
 # install tools and programs
 ./toolssetup.sh
 
+if [ $? -ne 0 ];
+then
+	exit 1
+fi
+
 # configure virtual network
 ./networksetup.sh $gns3bridge
 
+if [ $? -ne 0 ];
+then
+	exit 1
+fi
+
 # configure runtime location for GNS3 server
 ./filessetup.sh $gns3path $gns3bridge
+
+if [ $? -ne 0 ];
+then
+	exit 1
+fi
 
 echo "Installation completed"
 echo "Please reboot your system"
