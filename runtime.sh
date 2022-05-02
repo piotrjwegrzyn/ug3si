@@ -20,7 +20,9 @@ gns3cores=4		# CPU cores
 
 echo "GNS3 server runner"
 
-if [[ ! $(ip link show tap-gns3vm) ]]
+ip link show tap-gns3vm > /dev/null
+
+if [[ $? -ne 0 ]]
 then
 	echo "Creating TAP interface..."
  	sudo ip tuntap add dev tap-gns3vm mode tap user $(whoami)

@@ -23,7 +23,7 @@ if [[ $kvm_support -ne 0 ]]
 then
 	echo "KVM supported"
 else
-	else "KVM not supported, installation will not work correctly"
+	echo "KVM not supported, installation will not work correctly"
 fi
 
 # check internet connection
@@ -33,6 +33,39 @@ then
 	echo "Connection error"
 	exit 1
 fi
+
+# installing required tools for runtime
+echo "Installing runtime tools..."
+platform=$(hostnamectl | grep -ioE "ubuntu|mint|fedora|arch|manjaro" | head -1 | awk '{ print tolower($0) }')
+case $platform in
+    ubuntu | mint)
+        echo "Determined platform: Ubuntu or Linux Mint"
+		sudo add-apt-repository --yes ppa:gns3/ppa
+		sudo apt update                                
+		sudo apt install -y curl qemu-kvm bridge-utils libvirt-daemon-system gns3-gui telnetd
+        ;;
+    fedora)
+        echo "Determined platform: Fedora"
+		sudo dnf --setopt=install_weak_deps=False --best -y install curl qemu-kvm bridge-utils libvirt gns3-gui telnet
+        ;;
+    arch | manjaro)
+        echo "Determined platform: Arch or Manjaro"
+		sudo pacman -S --needed curl qemu bridge-utils libvirt base-devel git wget yajl
+		git clone https://aur.archlinux.org/gns3-gui.git
+		cd gns3-gui
+		makepkg -si
+		cd ..
+        ;;
+    *)
+        echo "Undetermined platform"
+		echo "To finish installation install qemu-kvm, gns3-gui, bridge-utils, libvirt-daemon-system and telnetd"
+		echo "After installation run networksetup.sh script"
+		exit 1
+        ;;
+esac
+
+# configure virtual network
+./networksetup.sh
 
 # find current version of GNS3
 gns3version=$(curl -L -s -H 'Accept: application/json' $gns3repository | sed -e 's/.*"tag_name":"v\([^"]*\)".*/\1/')
@@ -48,21 +81,21 @@ then
 	exit 1
 fi
 
+# move files to runtime location
+mkdir -p $gns3path
+chmod +x ./runtime.sh
+cp ./runtime.sh $gns3path
+
 # extract server files
 echo "Extracting server files (that may takes a while)..."
-unzip $gns3version.zip
+unzip -d $gns3path $gns3version.zip "*.qcow2"
 if [[ $? -ne 0 ]]
 then
 	echo "Error while extracting server files"
 	exit 1
+else
+	rm $gns3version.zip
 fi
-
-# move files to runtime location
-echo "Moving files..."
-mkdir $gns3path
-chmod +x ./startup.sh
-mv ./startup.sh $gns3path
-mv ./*.qcow2 $gns3path
 
 # create shortcut
 echo "Creating menu shortcut..."
@@ -75,43 +108,11 @@ Type=Application
 Name=GNS3 Server
 Comment=GNS3 server
 Icon=application-x-gns3project
-Exec= sh '"$gns3path"'startup.sh
+Exec= sh '"$gns3path"'runtime.sh
 Path='"$gns3path"'
 Terminal=true
 Actions=
 Categories=Education;
 Keywords=simulator;network;netsim;' >> $gns3shortcut
-
-# installing required tools for runtime
-echo "Installing runtime tools..."
-platform=$(hostnamectl | grep -ioE "ubuntu|mint|fedora|arch|manjaro" | head -1 | awk '{ print tolower($0) }')
-case $platform in
-    ubuntu | mint)
-        echo "Determined platform: Ubuntu or Linux Mint"
-		sudo add-apt-repository --yes ppa:gns3/ppa
-		sudo apt update                                
-		sudo apt install -y qemu-kvm bridge-utils libvirt-daemon-system gns3-gui telnetd
-        ;;
-    fedora)
-        echo "Determined platform: Fedora"
-		sudo dnf --setopt=install_weak_deps=False --best -y install qemu-kvm bridge-utils libvirt gns3-gui telnet
-        ;;
-    arch | manjaro)
-        echo "Determined platform: Arch or Manjaro"
-		sudo pacman -S --needed qemu bridge-utils libvirt base-devel git wget yajl
-		git clone https://aur.archlinux.org/gns3-gui.git
-		cd gns3-gui
-		makepkg -si
-		cd ..
-        ;;
-    *)
-        echo "Undetermined platform"
-		echo "To finish installation install qemu-kvm, gns3-gui, bridge-utils, libvirt-daemon-system and telnetd"
-		echo "After installation run networksetup.sh script"
-		exit 1
-        ;;
-esac
-
-./networksetup.sh
 
 echo "Done, reboot your system"
