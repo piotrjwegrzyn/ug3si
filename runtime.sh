@@ -1,10 +1,16 @@
 #!/bin/bash -i
+#
+# Ultimate GNS3 server installer for Linux host machines
+#
+# Runtime script
+#
+# Author: Piotr J. Węgrzyn
+# GitHub: https://github.com/piotrjwegrzyn/ug3si
+
 
 # Environment params
 gns3ip=10.10.10.10
-gns3path=/home/$USER/GNS3/
-
-# bridge interface name
+gns3path=/home/$USER/.gns3runtime/
 gns3bridge=gns3bridge
 
 # VM params
@@ -12,8 +18,7 @@ gns3mem=8G		# RAM size
 gns3maxmem=16G	# maximum size of RAM+swap
 gns3cores=4		# CPU cores
 
-
-echo "GNS3 server startup"
+echo "GNS3 server runner"
 
 if [[ ! $(ip link show tap-gns3vm) ]]
 then
