@@ -20,8 +20,9 @@ gns3cores=4		# CPU cores
 
 echo "GNS3 server runner"
 
-ip link show tap-gns3vm > /dev/null
+sudo systemctl start libvirtd
 
+ip link show tap-gns3vm > /dev/null
 if [ $? -ne 0 ];
 then
 	echo "Creating TAP interface..."
@@ -73,7 +74,7 @@ while :
 do
 	sleep 1
 	echo "."
-	((i--))
+	i=$((i--))
 	ping -q -c 1 $gns3ip > /dev/null
 	if [ $? -eq 0 ];
 	then

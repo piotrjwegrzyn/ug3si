@@ -46,7 +46,7 @@ case $platform in
         ;;
     fedora)
         echo "Determined platform: Fedora"
-		sudo dnf --setopt=install_weak_deps=False --best -y install curl qemu-kvm bridge-utils libvirt gns3-gui telnet
+		sudo dnf --setopt=install_weak_deps=False --best -y install curl qemu-kvm bridge-utils libvirt gns3-gui telnet xterm
         ;;
     arch | manjaro)
         echo "Determined platform: Arch or Manjaro"
