@@ -19,7 +19,7 @@ echo "GNS3 server installer"
 
 # check KVM support
 kvm_support=$(grep -E "vmx|svm|0xc0f" /proc/cpuinfo | wc -l)
-if [[ $kvm_support -ne 0 ]]
+if [ $kvm_support -ne 0 ];
 then
 	echo "KVM supported"
 else
@@ -28,7 +28,7 @@ fi
 
 # check internet connection
 ping -q -c 1 1.1.1.1 > /dev/null
-if [[ $? -ne 0 ]]
+if [ $? -ne 0 ];
 then
 	echo "Connection error"
 	exit 1
@@ -75,7 +75,7 @@ gns3url="https://github.com/GNS3/gns3-gui/releases/download/v$gns3version/GNS3.V
 # download
 echo "Downloading..."
 curl -L -o $gns3version.zip $gns3url
-if [[ $? -ne 0 ]]
+if [ $? -ne 0 ];
 then
 	echo "Error while downloading"
 	exit 1
@@ -89,7 +89,7 @@ cp ./runtime.sh $gns3path
 # extract server files
 echo "Extracting server files (that may takes a while)..."
 unzip -d $gns3path $gns3version.zip "*.qcow2"
-if [[ $? -ne 0 ]]
+if [ $? -ne 0 ];
 then
 	echo "Error while extracting server files"
 	exit 1

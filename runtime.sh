@@ -22,7 +22,7 @@ echo "GNS3 server runner"
 
 ip link show tap-gns3vm > /dev/null
 
-if [[ $? -ne 0 ]]
+if [ $? -ne 0 ];
 then
 	echo "Creating TAP interface..."
  	sudo ip tuntap add dev tap-gns3vm mode tap user $(whoami)
@@ -49,7 +49,7 @@ else
 fi
 
 ps aux | grep "GNS3" | grep -v "grep" > /dev/null
-if [[ $? -eq 0 ]]
+if [ $? -eq 0 ];
 then
 	echo "GNS3 server is detected as running"
 else
@@ -75,11 +75,11 @@ do
 	echo "."
 	((i--))
 	ping -q -c 1 $gns3ip > /dev/null
-	if [[ $? -eq 0 ]]
+	if [ $? -eq 0 ];
 	then
 		break
 	fi
-	if [[ $i -eq 0 ]]
+	if [ $i -eq 0 ];
 	then
 		echo "GNS3 server is unreachable"
 		exit 1

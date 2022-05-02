@@ -18,7 +18,7 @@ sudo virsh net-define --file $gns3bridge.xml
 sudo virsh net-autostart $gns3bridge
 sudo virsh net-start $gns3bridge
 
-if [[ $? -ne 0 ]]
+if [ $? -ne 0 ];
 then
     echo "Error while setting up virtual network"
     exit 1
