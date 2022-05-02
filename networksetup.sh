@@ -13,9 +13,8 @@ set -e
 gns3bridge=gns3bridge
 
 echo "Setting up virtual network..."
-sudo ufw allow 23/tcp
-sudo adduser $USER libvirt
-sudo virsh net-define --file $gns3bridge.xml --validate
+sudo usermod -a -G libvirt $USER
+sudo virsh net-define --file $gns3bridge.xml
 sudo virsh net-autostart $gns3bridge
 sudo virsh net-start $gns3bridge
 
