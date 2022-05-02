@@ -3,6 +3,8 @@
 # Ultimate GNS3 server installer for Linux host machines
 #
 # Virtual network setup script
+# Gets:
+# * $1 = bridge interface name
 #
 # Author: Piotr J. Węgrzyn
 # GitHub: https://github.com/piotrjwegrzyn/ug3si
@@ -10,7 +12,7 @@
 set -e
 
 # Environment params
-gns3bridge=gns3bridge
+gns3bridge=$1
 
 echo "Setting up virtual network..."
 sudo usermod -a -G libvirt $USER

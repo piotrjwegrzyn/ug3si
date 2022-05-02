@@ -24,7 +24,7 @@ case $platform in
         ;;
     arch | manjaro)
         echo "Determined platform: Arch or Manjaro"
-		sudo pacman -S --needed wireshark-qt
+		sudo pacman -S --noconfirm --needed wireshark-qt
         ;;
     *)
         echo "Undetermined platform"
@@ -32,7 +32,5 @@ case $platform in
         ;;
 esac
 
-echo "Adding user to wireshark group..."
+echo "Adding user to Wireshark group..."
 sudo usermod -a -G wireshark $USER
-
-echo "Done"
