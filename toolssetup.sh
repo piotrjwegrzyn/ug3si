@@ -29,8 +29,9 @@ case $platform in
 		sudo pacman -S --noconfirm --needed curl qemu bridge-utils libvirt base-devel wget yajl
 		git clone https://aur.archlinux.org/gns3-gui.git
 		cd gns3-gui
-		makepkg -si
+		makepkg -si --noconfirm
 		cd ..
+        rm -rf gns3-gui
         ;;
     *)
         echo "Undetermined platform"
