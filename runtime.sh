@@ -36,8 +36,6 @@ if [ $? -eq 0 ];
 then
 	echo "GNS3 server is detected as running"
 else
-	echo "Starting libvirtd..."
-	sudo systemctl start libvirtd
 
 	ip link show $gns3tap > /dev/null
 	if [ $? -ne 0 ];

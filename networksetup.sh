@@ -17,6 +17,9 @@ gns3bridge=$1
 echo "Setting up virtual network..."
 # adding user to libvirt group (if not added)
 sudo usermod -a -G libvirt $USER
+# marking libvirtd as autostart after reboot
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtd
 # configuring virtual bridge interface from file
 sudo virsh net-define --file $gns3bridge.xml
 # marking as autostart (after reboot)
