@@ -18,6 +18,7 @@ case $platform in
 		echo "wireshark-common wireshark-common/install-setuid boolean true" | sudo debconf-set-selections
 		sudo apt update
 		sudo DEBIAN_FRONTEND=noninteractive apt install -y wireshark
+		yes yes | sudo DEBIAN_FRONTEND=teletype dpkg-reconfigure wireshark-common
         ;;
     fedora)
         echo "Determined platform: Fedora"
@@ -35,3 +36,4 @@ esac
 
 echo "Adding user to Wireshark group..."
 sudo usermod -a -G wireshark $USER
+echo "Please re-login to your system to apply changes"
