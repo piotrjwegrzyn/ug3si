@@ -15,8 +15,9 @@ platform=$(hostnamectl | grep -ioE "ubuntu|mint|fedora|arch|manjaro" | head -1 |
 case $platform in
     ubuntu | mint)
         echo "Determined platform: Ubuntu or Linux Mint"
-		sudo apt update                                
-		sudo apt install -y wireshark
+		echo "wireshark-common wireshark-common/install-setuid boolean true" | sudo debconf-set-selections
+		sudo apt update
+		sudo DEBIAN_FRONTEND=noninteractive apt install -y wireshark
         ;;
     fedora)
         echo "Determined platform: Fedora"

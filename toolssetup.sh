@@ -17,8 +17,8 @@ case $platform in
     ubuntu | mint)
         echo "Determined platform: $platform"
 		sudo add-apt-repository --yes ppa:gns3/ppa
-		sudo apt update                                
-		sudo apt install -y curl qemu-kvm bridge-utils libvirt-daemon-system gns3-gui telnetd
+		sudo apt update
+		sudo DEBIAN_FRONTEND=noninteractive apt install -y curl qemu-kvm bridge-utils libvirt-daemon-system gns3-gui telnetd
         ;;
     fedora)
         echo "Determined platform: $platform"
@@ -27,11 +27,7 @@ case $platform in
     arch | manjaro)
         echo "Determined platform: $platform"
 		sudo pacman -S --noconfirm --needed curl qemu bridge-utils libvirt base-devel wget yajl
-		git clone https://aur.archlinux.org/gns3-gui.git
-		cd gns3-gui
-		makepkg -si --noconfirm
-		cd ..
-        rm -rf gns3-gui
+		pip install gns3-gui
         ;;
     *)
         echo "Undetermined platform"

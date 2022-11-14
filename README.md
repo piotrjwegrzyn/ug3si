@@ -15,7 +15,7 @@ All scripts are 'self-descriptive' so you can easily check and modify to run for
 * `gns3bridge.xml` – virtual network bridge interface name (also name of bridge configuration file) for **libvirt**
 * `filessetup.sh $gns3path $gns3bridge` – files setup (configures runtime location); gets runtime path and bridge interface name
 * `runtime.sh $gns3path $gns3bridge` – runtime script; gets runtime path and bridge interface name
-* `wiresharkinstaller.sh` – Wireshark installer
+* `wiresharkinstaller.sh` – Wireshark installer (manual run)
 
 ## Installation
 
@@ -26,7 +26,7 @@ To install GNS3 server just run `install.sh` in terminal – script will automat
 In case you are asked if non-super users should be able to do something always choose "Yes".
 
 ### Defaults and modifications
-* Location: `~/.gns3/` folder
+* Location: `~/.gns3runtime/` folder
 * IP address: `10.10.10.10`
 * SSH username/password: `gns3/gns3`
 
